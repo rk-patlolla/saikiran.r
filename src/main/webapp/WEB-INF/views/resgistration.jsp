@@ -4,12 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Registration</title>
 </head>
-<body><center>
-<a href="admin"><button>Admin</button></a>
-<a href="student"><button>Student</button></a>
-<a href="asignstudentcourse"><button>Asign Course to Student</button></a>
-</center>
+<body>
+
+
 </body>
 </html>
