@@ -64,7 +64,7 @@ a, a:hover, a:focus {
 }
 
 .line {
-    width: 100%;
+    width: 50%;
     height: 1px;
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
@@ -74,7 +74,7 @@ a, a:hover, a:focus {
     SIDEBAR STYLE
 ----------------------------------------------------- */
 #sidebar {
-    width: 180px;
+    width: 150px;
     position: fixed;
     top: 0;
     left: 0;
@@ -168,9 +168,9 @@ a.article, a.article:hover {
     CONTENT STYLE
 ----------------------------------------------------- */
 #content {
-    width: calc(100% - 100px);
+    width: calc(50% - 100px);
     padding: 40px;
-    min-height: 100vh;
+    min-height: 500vh;
     transition: all 0.3s;
     position: absolute;
     top: 0;
@@ -184,7 +184,7 @@ a.article, a.article:hover {
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
-@media (max-width: 368px) {
+@media (max-width: 158px) {
     #sidebar {
         margin-left: -100px;
     }
@@ -192,7 +192,7 @@ a.article, a.article:hover {
         margin-left: 0;
     }
     #content {
-        width: 50%;
+        width: 30%;
     }
     #content.active {
         width: calc(50% - 100px);
@@ -201,7 +201,8 @@ a.article, a.article:hover {
         display: none;
     }
 }
-
+    container. {width: 250px;
+    height: 424px;}
 </style>
 
 <body>
@@ -213,34 +214,29 @@ a.article, a.article:hover {
     <!-- Sidebar Holder -->
     <nav id="sidebar">
      <div class="sidebar-menu" style="top:77px">
-        <h3>ADMIN DASH BOARD</h3>
+        <h3>Student DASH BOARD</h3>
         </h3>
       </div>
 
       <ul class="list-unstyled components">
-        <p>ADMIN : </p>
+        <p>Student : </p>
         <li>
-          <a href="admin">Home</a>
+          <a href="index">Home</a>
 
         </li>
         <li>
-          <a href="addCourse">Add Course</a>
+          <a href="student">Register Student</a>
 
         </li>
         <li>
-          <a href="editCourse">Edit Course</a>
+          <a href="viewStudentDetails">View Students</a>
 
 
         </li>
         <li>
-          <a href="viewCourse">View Courses</a>
+          <a href="viewStudentDetails">View Student </a>
         </li>
-            <li>
-          <a href="aviewStudentDetails">View All Students</a>
-        </li>
-            <li>
-          <a href="getStudent">View Student By Name</a>
-        </li>
+        
         <li>
           <a href="#">Blog</a>
         </li>
@@ -260,6 +256,7 @@ a.article, a.article:hover {
     <!-- Page Content Holder -->
 
   </div>
+  
 
 
 

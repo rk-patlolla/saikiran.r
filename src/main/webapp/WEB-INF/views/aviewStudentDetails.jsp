@@ -10,25 +10,23 @@
 </head>
 <body style="width: 975px">
 	<jsp:include page="boot.jsp"></jsp:include>
-	<div class="container" style="width: 975px;">
-		<h3 align="center">View Course</h3>
-<center><c:if test="${not empty MSG}">
-		<b><c:out value="${MSG}"></c:out></b>
-	</c:if></center>
-		<c:if test="${empty Course}">
+	<div class="container">
+		<h3 align="center">View Student</h3>
+
+		<c:if test="${empty student}">
 			<b>No Data Found</b>
 		</c:if>
-		<c:if test="${not empty Course}">
-			<table border="1" align="right">
-				<th>Course ID</th>
-				<th>Course Name</th>
-				<th>Course Type</th>
-				<th>Course description</th>
-				<th>Course status</th>
-				<th>Last Updated Date</th>
+		<c:if test="${not empty student}">
+			<table border="1" align="center">
+				<th>Student ID</th>
+				<th>Student Name</th>
+				<th>Student Type</th>
+				<th>Mobile No</th>
+				<th>Student status</th>
+				<th>Date</th>
 
 
-				<c:forEach var="listValue" items="${Course}">
+				<c:forEach var="listValue" items="${student}">
 					<%-- 	<li>
 				${listValue.cId}
 				${listValue.courseName}
@@ -39,12 +37,12 @@
 
 					</tr>
 
-					<td>${listValue.cId}</td>
-					<td>${listValue.courseName}</td>
-					<td>${listValue.courseType}</td>
-					<td>${listValue.courseDescription}</td>
-					<td>${listValue.cStatus}</td>
-					<td>${listValue.updatedDate}</td>
+					<td>${listValue.sId}</td>
+					<td>${listValue.studentName}</td>
+					<td>${listValue.studentType}</td>
+					<td>${listValue.mobileNo}</td>
+					<td>${listValue.course.courseName}</td>
+					<td>${listValue.created}</td>
 
 
 

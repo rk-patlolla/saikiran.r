@@ -10,23 +10,23 @@
 <title>Geee here</title>
 </head>
 <body>
-        <form:form modelAttribute="StudentCourse" action="asignstudent" method="POST">
-	<div>
-		Student : 
-	
-		<form:select path="sId" >
-			<c:forEach var="map" items="${student}">
-				<option value="${map.key}"><c:out value="${map.value}" /></option>
-			</c:forEach>
-		</form:select>
-				&nbsp;&nbsp;
-		Course  : 
-		<form:select path="cId">
-			<c:forEach var="map" items="${corse}">
-				<option value="${map.key}"><c:out value="${map.value}" /></option>
-			</c:forEach>
-		</form:select>
-	</div>
+	<form:form modelAttribute="StudentCourse" action="asignstudent"
+		method="POST">
+		<div>
+			Student :
+
+			<form:select path="sId">
+				<c:forEach var="map" items="${student}">
+					<option value="${map.key}"><c:out value="${map.value}" /></option>
+				</c:forEach>
+			</form:select>
+			&nbsp;&nbsp; Course :
+			<form:select path="cId">
+				<c:forEach var="map" items="${corse}">
+					<option value="${map.key}"><c:out value="${map.value}" /></option>
+				</c:forEach>
+			</form:select>
+		</div>
 	</form:form>
 </body>
 </html>
