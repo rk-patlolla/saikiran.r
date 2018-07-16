@@ -1,14 +1,15 @@
 package com.campusguidedemo.app.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 
+import java.security.Principal;
 import java.util.Map;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,7 +37,9 @@ public class StudentController {
 	
 	
 	@RequestMapping("/studenthome")
-	public ModelAndView studenthome() {
+	public ModelAndView studenthome(Model model, Principal principal) {
+		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+		model.addAttribute("userDetails", userDetails.getUsername());
 		return new ModelAndView("studenthome");
 	}
 	@PreAuthorize("hasAnyRole'USER'")
@@ -58,7 +61,8 @@ public class StudentController {
 		} catch (Exception e) {
 			return new ModelAndView("redirect:/student");
 		}
-		return new ModelAndView("redirect:/viewStudentDetails");
+		model.addAttribute("MESSAGE", "SUCESSFULLY REGISTERED PLEASE LOGIN");
+		return new ModelAndView("index");
 	}
 
 	@RequestMapping("/viewStudentDetails")

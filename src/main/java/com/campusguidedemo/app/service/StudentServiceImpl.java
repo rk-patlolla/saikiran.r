@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.campusguidedemo.app.controller.StudentController;
@@ -28,6 +29,7 @@ public class StudentServiceImpl implements StudentService {
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			student.setCreated(timestamp);
 			student.setUpdated(timestamp);
+			student.setStudentpassword(new BCryptPasswordEncoder().encode(student.getStudentpassword()));
 			studentadded = studentRes.save(student);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

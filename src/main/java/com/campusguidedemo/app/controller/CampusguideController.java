@@ -1,5 +1,6 @@
 package com.campusguidedemo.app.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,6 +13,7 @@ import org.jboss.logging.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,13 +33,12 @@ import com.campusguidedemo.app.pojo.Course;
 import com.campusguidedemo.app.service.CourseService;
 import com.campusguidedemo.app.utils.MessagesProperties;
 
-
 /* @RequestMapping("CampusguideController") */
 @RestController
 public class CampusguideController {
 	@Autowired
 	CourseService courseService;
-  @Autowired
+	@Autowired
 	private MessagesProperties messageP;
 
 	public static final Logger logger = LoggerFactory.getLogger(CampusguideController.class);
@@ -53,48 +54,71 @@ public class CampusguideController {
 		ModelAndView view = new ModelAndView("resgistration");
 		return view;
 	}
-   /* @RequestMapping(value="/login", method = RequestMethod.POST)
-	public ModelAndView login(@AuthenticationPrincipal final UserDetails details) {
-		
-		String username = details.getUsername();
-		Collection<? extends GrantedAuthority> authorities = details.getAuthorities();
-		List<GrantedAuthority> authoritiesList = new ArrayList<GrantedAuthority>(authorities);
-		String authority="";
-		if(authoritiesList.size()==1)
-		{
-			authority = String.valueOf(authoritiesList.get(0));
-		}
-		String redirectview="";
-		
-		if(authority.equals("ROLE_ADMIN")) {
-			redirectview="admin";
-		}
-		else{
-			redirectview="studenthome";
-		}
-		
-		return new ModelAndView(redirectview);
-		
-	}*/
-	
-	/*@RequestMapping(value="login",method=RequestMethod.POST)
-	
-	public ModelAndView login() {
-		
-		
-		return new ModelAndView("admin");
-		
-	}*/
-	
+
+
+
+	@GetMapping("/accessDenied")
+	public ModelAndView accessDenied() {
+		ModelAndView view = new ModelAndView("accesDenied");
+		return view;
+	}
+	/*
+	 * @RequestMapping(value="/login", method = RequestMethod.POST) public
+	 * ModelAndView login(@AuthenticationPrincipal final UserDetails details) {
+	 * 
+	 * String username = details.getUsername(); Collection<? extends
+	 * GrantedAuthority> authorities = details.getAuthorities();
+	 * List<GrantedAuthority> authoritiesList = new
+	 * ArrayList<GrantedAuthority>(authorities); String authority="";
+	 * if(authoritiesList.size()==1) { authority =
+	 * String.valueOf(authoritiesList.get(0)); } String redirectview="";
+	 * 
+	 * if(authority.equals("ROLE_ADMIN")) { redirectview="admin"; } else{
+	 * redirectview="studenthome"; }
+	 * 
+	 * return new ModelAndView(redirectview);
+	 * 
+	 * }
+	 */
+
+	/*
+	 * @RequestMapping(value="login",method=RequestMethod.POST)
+	 * 
+	 * public ModelAndView login() {
+	 * 
+	 * 
+	 * return new ModelAndView("admin");
+	 * 
+	 * }
+	 */
+
 	@GetMapping("/index")
 	public ModelAndView index() {
 		ModelAndView view = new ModelAndView("index");
 		return view;
 	}
 
-	@GetMapping("/admin")
-	public ModelAndView admin() {
-		ModelAndView view = new ModelAndView("admin");
+	@GetMapping("/userlogin")
+	public ModelAndView admin(Model model, Principal principal) {
+		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+		model.addAttribute("userDetails", userDetails.getUsername());
+		logger.info("USER LOGGED IN " + userDetails.getAuthorities());
+		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+		List<GrantedAuthority> authoritiesList = new ArrayList<GrantedAuthority>(authorities);
+		String authority = "";
+		if (authoritiesList.size() == 1) {
+			authority = String.valueOf(authoritiesList.get(0));
+		}
+		String page = "";
+		if (authority.contains("ROLE_ADMIN")) {
+			page = "/admin";
+		} else if (authority.contains("ROLE_USER")) {
+			page = "/studenthome";
+		} else {
+			page = "/accesDenied";
+		}
+
+		ModelAndView view = new ModelAndView(page);
 		return view;
 	}
 
@@ -104,21 +128,21 @@ public class CampusguideController {
 	}
 
 	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public ModelAndView saveCourse(@ModelAttribute("Course") @Valid Course course, BindingResult error,Model model) {
+	public ModelAndView saveCourse(@ModelAttribute("Course") @Valid Course course, BindingResult error, Model model) {
 		if (error.hasErrors()) {
 			return new ModelAndView("addCourse");
 		}
-		
+
 		try {
 			Course addCousrse = courseService.addCousrse(course);
-			
-			if (addCousrse!=null) {
+
+			if (addCousrse != null) {
 				model.addAttribute("MSG", messageP.getSaveSuccessMsg());
 			}
 		} catch (Exception e) {
 			model.addAttribute("MSG", messageP.getSaveErrorMsg());
 		}
-		
+
 		logger.debug("------------------------>>>>>>>>Check addedcourse" + course.getcId());
 		return new ModelAndView("addCourse");
 	}

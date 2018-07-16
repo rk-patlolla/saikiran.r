@@ -36,7 +36,7 @@ function CheckNumeric(e) {
 }
 </style>
 <body style="width: 975px">
-	<jsp:include page="studentleftboot.jsp"></jsp:include>
+
 
 	<div class="container" align="left">
 		<div align="right" style="width: 975px;">
@@ -50,6 +50,13 @@ function CheckNumeric(e) {
 						<td align="left" width="40%"><form:input path="studentName"
 							class="alphaonly"	size="30" value="" /></td>
 						<td align="left"><form:errors path="studentName"
+								cssClass="error" /></td>
+					</tr>
+					<tr>
+						<td align="left" width="20%">Enter Password:</td>
+						<td align="left" width="40%"><form:password path="studentpassword"
+							class="alphaonly"	size="30" value="" /></td>
+						<td align="left"><form:errors path="studentpassword"
 								cssClass="error" /></td>
 					</tr>
 

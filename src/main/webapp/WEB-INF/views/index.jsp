@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -97,24 +98,28 @@ span.psw {
 				<li><a href="#">Page 3</a></li>
 			</ul> -->
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="admin" ><span class="glyphicon glyphicon-user"></span>Admin</a></li>
+				
+				<li><a href="userlogin"><span
+						class="glyphicon glyphicon-log-in"></span> LOG IN</a></li>
 				<li><a href="student"><span
-						class="glyphicon glyphicon-log-in"></span> Student</a></li>
-				<li><a href="asignstudentcourse"><span
-						class="glyphicon glyphicon-log-in"></span> Asign Course to Student</a></li>
+						class="glyphicon glyphicon-log-in"></span>Student Registration</a></li>
 			</ul>
 		</div>
 	</div>
 	</nav>
+	<center><c:if test="${not empty MESSAGE}">
+		<b><c:out value="${MESSAGE}"></c:out></b>
+	</c:if></center>
+	
 
 	<div class="container">
 		<h3>CampusGuide</h3>
 		<p>One stop solution for all IT services,placements and Overseas education.We are providing online software training based on specific needs of the students especially we give innovative one to one training in all the software which are having great opportunities in the present trend. We provides Class room training and as well as online training to contend with today's competitive software world. Students can grasp the subject from our experienced and certified trainers which helps the students to work in real time environment. Students can choose either normal track or fast track course or weekends classes.We also provide classroom training to the students for wide range of technologies. Our practice is to partner with cutting edge individuals, organizations and industry experts to ensure content and technologies lead the field.
 		
 	</div>
-<!-- 	<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
- -->
-<!-- <div id="id01" class="modal">
+	<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+
+<div id="id01" class="modal">
   
   <form class="modal-content animate" action="/login" method="POST">
     <div class="imgcontainer">
@@ -138,7 +143,7 @@ span.psw {
       <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
   </form>
-</div> -->
+</div>
 
 <script>
 // Get the modal

@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.type.TrueFalseType;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -38,8 +39,15 @@ public class Student {
 
 	@NotBlank
 	@Length(min = 10, max = 10, message = "Mobile number be  10 digits")
-	@Column(name = "mobile_no")
+	@Column(name = "mobile_no",unique=true)
 	private String mobileNo;
+
+	@NotBlank
+	@Column(name = "student_password")
+	private String studentpassword;
+	@NotBlank
+	@Column(name = "student_role", length = 45)
+	private String userrole="ROLE_USER";
 
 	@Column(name = "s_status", length = 10)
 	private int sStatus = 0;
@@ -60,12 +68,29 @@ public class Student {
 	@Override
 	public String toString() {
 		return "Student [sId=" + sId + ", studentName=" + studentName + ", studentType=" + studentType + ", course="
-				+ course + ", mobileNo=" + mobileNo + ", sStatus=" + sStatus + ", created=" + created + ", updated="
-				+ updated + "]";
+				+ course + ", mobileNo=" + mobileNo + ", studentpassword=" + studentpassword + ", userrole=" + userrole
+				+ ", sStatus=" + sStatus + ", created=" + created + ", updated=" + updated + "]";
 	}
+
 
 	public Date getCreated() {
 		return created;
+	}
+
+	public String getStudentpassword() {
+		return studentpassword;
+	}
+
+	public void setStudentpassword(String studentpassword) {
+		this.studentpassword = studentpassword;
+	}
+
+	public String getUserrole() {
+		return userrole;
+	}
+
+	public void setUserrole(String userrole) {
+		this.userrole = userrole;
 	}
 
 	public void setCreated(Date created) {

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -219,13 +221,12 @@ a.article, a.article:hover {
       </div>
 
       <ul class="list-unstyled components">
-        <p>Student : </p>
+        <p>Student :
+        	<c:if test="${not empty userDetails}">
+					<b><c:out value="${userDetails}"></c:out></b>
+				</c:if> </p>
         <li>
           <a href="index">Home</a>
-
-        </li>
-        <li>
-          <a href="student">Register Student</a>
 
         </li>
         <li>
@@ -238,7 +239,7 @@ a.article, a.article:hover {
         </li>
         
         <li>
-          <a href="#">Blog</a>
+          <a href="logout">log out</a>
         </li>
         <li>
           <a href="#">Acerca</a>
