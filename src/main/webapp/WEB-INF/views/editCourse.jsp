@@ -8,6 +8,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+function ConfirmDelete(cId) {
+     
+         
+             $.ajax({
+                url: '/deleteCourse/' + cId,
+                type: 'DELETE',
+                success: function(result) {
+                    return true;
+                }
+            }); 
+            return true;
+    }</script>
 </head>
 
 <body style="width: 975px;">
@@ -55,7 +70,12 @@
 						value="<c:out value="${listValue.updatedDate}"/>" /></td>
 					<td><button type="submit">UPDATE</button></td>
 				</form:form>
-				<td><a href="<c:url value='deleteCourse/${listValue.cId}'/>"><button>DELETE</button></a></td>
+				<td>
+			
+				<form:form method="post" id="course_${listValue.cId}" name="course_${listValue.cId}" style="display:none;" >
+			    </form:form>
+				<button onclick="if (confirm('Are you sure you want to delete ${listValue.courseName}?')) { return ConfirmDelete(${listValue.cId});};" >DELETE</button>
+				</td>
 			</c:forEach>
 		</table>
 

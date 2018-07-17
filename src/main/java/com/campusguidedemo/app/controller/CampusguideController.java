@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -101,18 +102,19 @@ public class CampusguideController {
 	@GetMapping("/userlogin")
 	public ModelAndView admin(Model model, Principal principal) {
 		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+	
+		
 		model.addAttribute("userDetails", userDetails.getUsername());
 		logger.info("USER LOGGED IN " + userDetails.getAuthorities());
-		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-		List<GrantedAuthority> authoritiesList = new ArrayList<GrantedAuthority>(authorities);
-		String authority = "";
-		if (authoritiesList.size() == 1) {
-			authority = String.valueOf(authoritiesList.get(0));
-		}
+		
+		
+		String authority = userDetails.getAuthorities().toString();
+		authority=authority.substring(1, authority.length()-1);
+	
 		String page = "";
-		if (authority.contains("ROLE_ADMIN")) {
+		if (authority.equalsIgnoreCase("ROLE_ADMIN")) {
 			page = "/admin";
-		} else if (authority.contains("ROLE_USER")) {
+		} else if (authority.equalsIgnoreCase("ROLE_USER")) {
 			page = "/studenthome";
 		} else {
 			page = "/accesDenied";
@@ -157,7 +159,7 @@ public class CampusguideController {
 		return new ModelAndView("editCourse", "Course", courseService.viewCourse());
 	}
 
-	@RequestMapping("/deleteCourse/{cId}")
+	@DeleteMapping("/deleteCourse/{cId}")
 	public ModelAndView deleteCourse(@PathVariable Long cId, Model model, Course course) {
 		course.setcId(cId);
 		Boolean coursebyId = courseService.deleteCoursebyId(course);
