@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.type.TrueFalseType;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -58,7 +57,6 @@ public class Student {
 	@Column(name = "updated_date")
 	private Date updated;
 
-	/* Getter and Setters */
 
 	/* DefaultConstructor */
 	public Student() {
@@ -72,7 +70,7 @@ public class Student {
 				+ ", sStatus=" + sStatus + ", created=" + created + ", updated=" + updated + "]";
 	}
 
-
+	/* Getter and Setters */
 	public Date getCreated() {
 		return created;
 	}

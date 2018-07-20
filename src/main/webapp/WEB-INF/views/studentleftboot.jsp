@@ -236,7 +236,7 @@ a.article, a.article:hover {
 
         </li>
         <li>
-          <a href="viewStudentDetails">View Student </a>
+          <a href="getSStudentDetailsById">View Student </a>
         </li>
         
         <li>

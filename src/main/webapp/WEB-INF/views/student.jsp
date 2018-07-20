@@ -7,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Form</title>
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 function CheckNumeric(e) {
 	 
     if (window.event) // IE 
@@ -28,6 +30,7 @@ function CheckNumeric(e) {
     }
 }
 </script>
+ -->
 <style>
 .error {
 	color: #ff0000;
@@ -86,10 +89,10 @@ function CheckNumeric(e) {
 
 
 					<td>Mobile:</td>
-					<td><form:input path="mobileNo" size="10" value=""
-							onkeypress="CheckNumeric(event)" maxlength="10" /></td>
+					<td><form:input path="mobileNo" size="10" id="mobileNo"
+					 maxlength="10" /></td>
 					<td><form:errors path="mobileNo" cssClass="error" /></td>
-
+                      <td><div class="form-group" id="groupNameTest" style="color:red;"></div></td>
 					<tr>
 						<td></td>
 						<td align="center"><input type="submit" value="addstudent" /></td>
@@ -100,7 +103,7 @@ function CheckNumeric(e) {
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$('.alphaonly').bind('keyup blur', function() {
 		var node = $(this);
 		if (node.value != "") {
@@ -113,5 +116,46 @@ function CheckNumeric(e) {
 		return true;
 		;
 	});
+</script> -->
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#mobileNo").keyup(function(){
+		var mobileNo=$(this).val();
+		if(mobileNo.length>=10){
+			$.ajax({
+				type:"post",
+				url: "${pageContext.request.contextPath}/searchByMobileNo",
+				data:"mobileNo="+mobileNo,
+				success:function(response){	
+					if(response=="available"){
+						//alert("inside if: "+response);
+					$('#groupNameTest').html("This Mobile No Already Exists!");
+					}else{
+						//alert("inside else: "+response);
+					$('#groupNameTest').html("Available");
+					}
+				},
+				error:function(err){
+					$('#groupNameTest').html("ERROR");
+					alert(err);
+				}
+			});
+			
+		}
+		
+	})
+});
+
+function validate() {
+
+	if ($('#mobileNo').val() == "" || $('#mobileNo').val() == null) {
+
+		alert("Please Enter Mobile No");
+		$("#mobileNo").focus();
+
+		return false;
+	}
+}
+
 </script>
 </html>

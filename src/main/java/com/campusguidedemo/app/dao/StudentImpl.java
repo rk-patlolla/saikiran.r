@@ -1,4 +1,4 @@
-package com.campusguidedemo.app.dao;
+/*package com.campusguidedemo.app.dao;
 
 import java.util.List;
 
@@ -31,3 +31,4 @@ public class StudentImpl implements StudentDao {
 	}
 
 }
+*/

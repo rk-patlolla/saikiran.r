@@ -1,23 +1,12 @@
 package com.campusguidedemo.app.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import javax.validation.Valid;
-
-import org.aspectj.weaver.NewMethodTypeMunger;
-import org.jboss.logging.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
 import com.campusguidedemo.app.pojo.Course;
 import com.campusguidedemo.app.service.CourseService;
 import com.campusguidedemo.app.utils.MessagesProperties;
@@ -55,8 +43,6 @@ public class CampusguideController {
 		ModelAndView view = new ModelAndView("resgistration");
 		return view;
 	}
-
-
 
 	@GetMapping("/accessDenied")
 	public ModelAndView accessDenied() {
@@ -102,15 +88,13 @@ public class CampusguideController {
 	@GetMapping("/userlogin")
 	public ModelAndView admin(Model model, Principal principal) {
 		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
-	
-		
+
 		model.addAttribute("userDetails", userDetails.getUsername());
 		logger.info("USER LOGGED IN " + userDetails.getAuthorities());
-		
-		
+
 		String authority = userDetails.getAuthorities().toString();
-		authority=authority.substring(1, authority.length()-1);
-	
+		authority = authority.substring(1, authority.length() - 1);
+
 		String page = "";
 		if (authority.equalsIgnoreCase("ROLE_ADMIN")) {
 			page = "/admin";
@@ -167,7 +151,7 @@ public class CampusguideController {
 		String page = "";
 		if (coursebyId == true) {
 			message = "Deleted Sucessfully";
-			page = "/viewCourse";
+			page = "/editCourse";
 		} else {
 			message = "Cannot Delete This Data";
 			page = "/editCourse";

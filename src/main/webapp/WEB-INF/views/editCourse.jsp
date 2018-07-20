@@ -18,9 +18,15 @@ function ConfirmDelete(cId) {
                 url: '/deleteCourse/' + cId,
                 type: 'DELETE',
                 success: function(result) {
+                
                     return true;
                 }
+           
             }); 
+
+         	setTimeout(function(){// wait for 1 secs(2)
+                 location.reload(); // then reload the page.(3)
+            }, 100); 
             return true;
     }</script>
 </head>
@@ -33,7 +39,7 @@ function ConfirmDelete(cId) {
 		<b>No Data Found</b>
 	</c:if>
 	<c:if test="${not empty Course}">
-		<table border="1"
+	<div id="result">	<table border="1" 
 			style="width: 1190px; height: 2px; margin-left: 197px;">
 			<th>Course ID</th>
 			<th>Course Name</th>
@@ -79,7 +85,7 @@ function ConfirmDelete(cId) {
 			</c:forEach>
 		</table>
 
-
+</div>
 	</c:if>
 	<a href="admin">Home</a>
 

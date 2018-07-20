@@ -9,8 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan(basePackages="com.campusguidedemo.app")
-@EnableJpaRepositories(basePackages="com.campusguidedemo.app")
+@EntityScan(basePackages = "com.campusguidedemo.app")
+@EnableJpaRepositories(basePackages = "com.campusguidedemo.app")
 @ComponentScan("com.campusguidedemo.app")
 @PropertySource("classpath:message.properties")
 public class CampusguideApplication extends SpringBootServletInitializer {
