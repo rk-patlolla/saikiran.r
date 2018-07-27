@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,8 +12,15 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Entity
 @Table(name = "course", uniqueConstraints = { @UniqueConstraint(columnNames = { "course_name", "course_type" }) })
+@EntityListeners(AuditingEntityListener.class)
 public class Course implements Serializable {
 	/**
 	 * 
@@ -33,12 +41,19 @@ public class Course implements Serializable {
 	private String courseDescription;
 	@Column(name = "c_status", length = 10)
 	private int cStatus = 0;
-
+    @CreatedDate
 	@Column(name = "created_date", updatable = false)
 	private Date createdDate;
-
+    @LastModifiedDate
 	@Column(name = "update_date")
 	private Date updatedDate;
+	@CreatedBy
+	@Column(name="created_by")
+	private String createdBy;
+
+	@LastModifiedBy
+	@Column(name="modified_by")
+	private String modifiedBy;
 
 	/* Setter && Getters */
 
@@ -112,7 +127,24 @@ public class Course implements Serializable {
 	public String toString() {
 		return "Course [cId=" + cId + ", courseName=" + courseName + ", courseType=" + courseType
 				+ ", courseDescription=" + courseDescription + ", cStatus=" + cStatus + ", createdDate=" + createdDate
-				+ ", updatedDate=" + updatedDate + "]";
+				+ ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", modifiedBy=" + modifiedBy + "]";
 	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
 
 }

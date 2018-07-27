@@ -230,13 +230,14 @@ a.article, a.article:hover {
           <a href="index">Home</a>
 
         </li>
+        
+        <li>
+          <a href="getSStudentDetailsById">Profile </a>
+        </li>
         <li>
           <a href="viewStudentDetails">View Students</a>
 
 
-        </li>
-        <li>
-          <a href="getSStudentDetailsById">View Student </a>
         </li>
         
         <li>

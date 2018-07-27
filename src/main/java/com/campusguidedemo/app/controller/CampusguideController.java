@@ -5,8 +5,10 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -84,26 +86,42 @@ public class CampusguideController {
 		ModelAndView view = new ModelAndView("index");
 		return view;
 	}
+	@GetMapping("/customlogin")
+	public ModelAndView customlogin() {
+		ModelAndView view = new ModelAndView("customlogin");
+		return view;
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	   public ModelAndView login(Model model, String error, String logout) {
+	       if (error != null)
+	           model.addAttribute("errorMsg", "Invalid Credentials");
+
+	       if (logout != null)
+	           model.addAttribute("msg", "You have been logged out successfully.");
+
+	       return new ModelAndView("customlogin");
+	   }
 
 	@GetMapping("/userlogin")
-	public ModelAndView admin(Model model, Principal principal) {
+	public ModelAndView admin(Model model, Principal principal)  {
+
+		String page= "";
+		String message="";
 		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
-
-		model.addAttribute("userDetails", userDetails.getUsername());
-		logger.info("USER LOGGED IN " + userDetails.getAuthorities());
-
-		String authority = userDetails.getAuthorities().toString();
-		authority = authority.substring(1, authority.length() - 1);
-
-		String page = "";
-		if (authority.equalsIgnoreCase("ROLE_ADMIN")) {
-			page = "/admin";
-		} else if (authority.equalsIgnoreCase("ROLE_USER")) {
-			page = "/studenthome";
-		} else {
-			page = "/accesDenied";
-		}
-
+			String authority = userDetails.getAuthorities().toString();
+			authority = authority.substring(1, authority.length() - 1);
+			if (authority.equalsIgnoreCase("ROLE_ADMIN")) {
+				page = "/admin";
+				
+			} else if (authority.equalsIgnoreCase("ROLE_USER")) {
+				page = "/studenthome";
+			} else {
+				page = "/customlogin";
+				message = "Bad Credentials";
+				model.addAttribute("errMsg", message);
+			}
+		
 		ModelAndView view = new ModelAndView(page);
 		return view;
 	}

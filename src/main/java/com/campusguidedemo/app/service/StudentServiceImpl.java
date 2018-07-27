@@ -1,6 +1,5 @@
 package com.campusguidedemo.app.service;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,7 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,9 +29,7 @@ public class StudentServiceImpl implements StudentService {
 	public Student addStudent(Student student) {
 		Student studentadded = new Student();
 		try {
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			student.setCreated(timestamp);
-			student.setUpdated(timestamp);
+			
 			student.setStudentpassword(new BCryptPasswordEncoder().encode(student.getStudentpassword()));
 			studentadded = studentRes.save(student);
 		} catch (Exception e) {
@@ -65,9 +63,8 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Student updateStudentById(Student student) {
-		logger.info("IDXXXXXXXXXXXXXXXXXXXXXXXXXXXX__________" + student.getsId());
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		student.setUpdated(timestamp);
+		logger.info("Update  IDXXXXXXXXXXXXXXXXXXXXXXXXXXXX__________" + student.getsId());
+		
 		return studentRes.save(student);
 	}
 
@@ -82,6 +79,18 @@ public class StudentServiceImpl implements StudentService {
 		logger.info("MESSAGE " + id);
 		return new Long(id.longValue());
 	}
+	
+	@Transactional
+	@Override
+	public Long getStudentsIdByMobileNo(String studentName) {
+		logger.info("MESSAGE " + studentName);
+		String queryStr = "SELECT s.sId FROM Student s where s.mobileNo ='" + studentName + "'";
+		Query query = entityManager.createQuery(queryStr);
+		logger.info("MESSAGE " + query);
+		Long id = (Long) query.getSingleResult();
+		logger.info("MESSAGE " + id);
+		return new Long(id.longValue());
+	}
 
 	@Override
 	public String checkMobileNoForReg(String mobileNo)throws UsernameNotFoundException {
@@ -89,8 +98,10 @@ public class StudentServiceImpl implements StudentService {
 		try {
 			String qureyStr = "Select s.mobileNo FROM Student s where s.mobileNo like '%"+mobileNo+"%'";
 			query = entityManager.createQuery(qureyStr);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (InternalAuthenticationServiceException e) {
+			 throw new UsernameNotFoundException(
+		                "Could not find user with this number " + mobileNo);
+			 
 		}
 		return  (String) query.getSingleResult();
 	}

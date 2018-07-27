@@ -36,7 +36,8 @@
 						<td align="left" width="20%">Student Name:</td>
 						<td align="left" width="40%"><form:input path="studentName"
 							class="alphaonly"	size="30"  />
-							<form:input type="hidden" path="sId" />
+							<form:input type="hidden" path="sId"  />
+							<form:input type="hidden" path="studentpassword"  />
 					
 							
 							

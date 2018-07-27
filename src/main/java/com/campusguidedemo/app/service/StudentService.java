@@ -21,9 +21,9 @@ public interface StudentService {
 
 	public Long getStudentsId(String studentName);
 
-	/* using this same method user existance while logging in */
-	public String checkMobileNoForReg(String mobileNo)throws UsernameNotFoundException;
-	
+	public Long getStudentsIdByMobileNo(String studentName);
 
+	/* using this same method user existance while logging in */
+	public String checkMobileNoForReg(String mobileNo) throws UsernameNotFoundException;
 
 }

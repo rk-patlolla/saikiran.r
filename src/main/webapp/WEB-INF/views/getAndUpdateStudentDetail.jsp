@@ -14,11 +14,14 @@
 	<center>
 		<div class="container" style="margin-right: -305px;">
 			<form:form class="form-horizontal" modelAttribute="Student"
-				action="updatestudent" method="POST">
+				action="updateSStudent" method="POST">
 				<div class="form-group">
 					<label class="col-sm-2 control-label">NAME</label>
 					<div class="col-sm-3">
-						<form:input path="studentName" class="form-control" />
+						<form:input path="studentName" class="form-control alphaonly" />
+						<form:input type="hidden" path="sId"  />
+						<form:input type="hidden" path="course"  />
+					    <form:input type="hidden" path="studentpassword"  />
 					</div>
 					<div class="col-sm-3">
 						<form:errors path="studentName" cssClass="error" />
@@ -54,7 +57,7 @@
 				</div>
 				<div class="form-group">
 				<div class="col-sm-3" align="right">
-					<form:button type="submit" value="updatestudent" >UPDATE</form:button>
+					<form:button type="submit" value="updateSStudent" >UPDATE</form:button>
 				</div>
 				</div>
 			</form:form>
@@ -64,4 +67,19 @@
 
 
 </body>
+ <script type="text/javascript">
+
+$('.alphaonly').bind('keyup blur',function(){ 
+    var node = $(this);
+    if(node.value!=""){
+    node.val(node.val().replace(/[^a-z/^A-Z/^ ]/g,'') )}
+    else{
+    	
+    	 alert("DONT SUBMIT EMPTY SPACES")
+    	 return false;
+    }
+	 return true;
+    ;}
+);
+</script>
 </html>

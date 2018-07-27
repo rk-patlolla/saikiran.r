@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -92,19 +93,22 @@ public class StudentController {
 
 	@RequestMapping("/getSStudentDetailsById")
 	public ModelAndView getSStudentById(Principal principal, @ModelAttribute("Student") Student student, Model model) {
-		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
-
-		Long Id = studentService.getStudentsId(userDetails.getUsername());
+		Authentication auth=SecurityContextHolder.getContext().getAuthentication();
+		logger.info("SECURITY"+auth.getName());
+		Long Id = studentService.getStudentsIdByMobileNo(auth.getName());
 		student.setsId(Id);
 		model.addAttribute("course", getCourse());
 		return new ModelAndView("getAndUpdateStudentDetail", "Student", studentService.getStudentById(student));
 	}
-
-	@RequestMapping(value = "updatestudent", method = RequestMethod.POST)
-	public ModelAndView updateStudentById(@ModelAttribute("Student") @Valid Student student, BindingResult error,
+	
+	
+	
+	@RequestMapping(value = "updateSStudent", method = RequestMethod.POST)
+	public ModelAndView updateSStudentById(@ModelAttribute("Student")  Student student, BindingResult error,
 			Model model) {
 		if (error.hasErrors()) {
-			return new ModelAndView("redirect:/getStudentDetailsById");
+			/*return new ModelAndView("redirect:/getStudentDetailsById");*/
+			return new ModelAndView("redirect:/getAndUpdateStudentDetail");
 		}
 		try {
 			Student updateStudentById = studentService.updateStudentById(student);
@@ -113,8 +117,56 @@ public class StudentController {
 			}
 		} catch (Exception e) {
 			model.addAttribute("MSG", messageP.getUpdateErrorMsg());
+			
 		}
-		return new ModelAndView("redirect:/getStudent");
+		return new ModelAndView("getAndUpdateStudentDetail", "Student", studentService.getStudentById(student));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	@RequestMapping(value = "updatestudent", method = RequestMethod.POST)
+	public ModelAndView updateStudentById(@ModelAttribute("Student")  Student student, BindingResult error,
+			Model model) {
+		if (error.hasErrors()) {
+			/*return new ModelAndView("redirect:/getStudentDetailsById");*/
+			return new ModelAndView("redirect:/getStudent");
+		}
+		try {
+			Student updateStudentById = studentService.updateStudentById(student);
+			if (updateStudentById != null) {
+				model.addAttribute("MSG", messageP.getUpdateSuccessMsg());
+			}
+		} catch (Exception e) {
+			model.addAttribute("MSG", messageP.getUpdateErrorMsg());
+			
+		}
+		return new ModelAndView("getStudentByName", "studentslist", studentService.getStudentByName());
 	}
 
 	@RequestMapping(value = "searchByMobileNo")

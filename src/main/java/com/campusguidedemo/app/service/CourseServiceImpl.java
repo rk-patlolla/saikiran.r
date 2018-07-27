@@ -1,6 +1,5 @@
 package com.campusguidedemo.app.service;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +21,6 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public Course addCousrse(Course course) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		course.setCreatedDate(timestamp);
-		course.setUpdatedDate(timestamp);
 		return courseRes.save(course);
 	}
 
@@ -46,8 +42,7 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public Course updateCourse(Course course) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		course.setUpdatedDate(timestamp);
+	
 		return courseRes.save(course);
 	}
 

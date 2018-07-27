@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Form</title>
 <script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <!-- <script type="text/javascript">
 function CheckNumeric(e) {
@@ -41,24 +41,24 @@ function CheckNumeric(e) {
 <body style="width: 975px">
 
 
-	<div class="container" align="left">
-		<div align="right" style="width: 975px;">
+	<div class="container" align="center">
+		<div style="width: 775px;" align="center">
 			<h2>Add Student</h2>
-			<table border="0" width="50%">
+			<table border="0" width="50%" align="center">
 				<form:form modelAttribute="Student" action="addstudent"
 					method="POST">
 
 					<tr>
 						<td align="left" width="20%">Student Name:</td>
 						<td align="left" width="40%"><form:input path="studentName"
-							class="alphaonly"	size="30" value="" /></td>
+								class="alphaonly" size="30" value="" /></td>
 						<td align="left"><form:errors path="studentName"
 								cssClass="error" /></td>
 					</tr>
 					<tr>
 						<td align="left" width="20%">Enter Password:</td>
-						<td align="left" width="40%"><form:password path="studentpassword"
-							class="alphaonly"	size="30" value="" /></td>
+						<td align="left" width="40%"><form:password
+								path="studentpassword" class="alphaonly" size="30" value="" /></td>
 						<td align="left"><form:errors path="studentpassword"
 								cssClass="error" /></td>
 					</tr>
@@ -77,7 +77,8 @@ function CheckNumeric(e) {
 					<tr>
 						<td>Course Type:</td>
 						<td><form:select path="course">
-								<option style="display:none" value="NONE">Select Course</option>
+								<option style="display: none" value="NONE">Select
+									Course</option>
 								<c:forEach var="map" items="${course}">
 									<option value="${map.key}"><c:out value="${map.value}" /></option>
 								</c:forEach>
@@ -90,9 +91,10 @@ function CheckNumeric(e) {
 
 					<td>Mobile:</td>
 					<td><form:input path="mobileNo" size="10" id="mobileNo"
-					 maxlength="10" /></td>
+							class="alphaonlys" maxlength="10" /></td>
 					<td><form:errors path="mobileNo" cssClass="error" /></td>
-                      <td><div class="form-group" id="groupNameTest" style="color:red;"></div></td>
+					<td><div class="form-group" id="groupNameTest"
+							style="color: red;"></div></td>
 					<tr>
 						<td></td>
 						<td align="center"><input type="submit" value="addstudent" /></td>
@@ -103,7 +105,7 @@ function CheckNumeric(e) {
 		</div>
 	</div>
 </body>
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	$('.alphaonly').bind('keyup blur', function() {
 		var node = $(this);
 		if (node.value != "") {
@@ -116,46 +118,76 @@ function CheckNumeric(e) {
 		return true;
 		;
 	});
-</script> -->
+</script>
 <script type="text/javascript">
-$(document).ready(function() {
-	$("#mobileNo").keyup(function(){
-		var mobileNo=$(this).val();
-		if(mobileNo.length>=10){
-			$.ajax({
-				type:"post",
-				url: "${pageContext.request.contextPath}/searchByMobileNo",
-				data:"mobileNo="+mobileNo,
-				success:function(response){	
-					if(response=="available"){
-						//alert("inside if: "+response);
-					$('#groupNameTest').html("This Mobile No Already Exists!");
-					}else{
-						//alert("inside else: "+response);
-					$('#groupNameTest').html("Available");
-					}
-				},
-				error:function(err){
-					$('#groupNameTest').html("ERROR");
-					alert(err);
-				}
-			});
-			
+	$('.alphaonlys').bind('keyup blur', function() {
+		var node = $(this);
+		if (node.value != "") {
+			node.val(node.val().replace(/[^0-9/^ ]/g, ''))
+		} else {
+
+			alert("DONT SUBMIT EMPTY SPACES")
+			return false;
 		}
-		
-	})
-});
+		return true;
+		;
+	});
+</script>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$("#mobileNo")
+								.keyup(
+										function() {
+											var mobileNo = $(this).val();
+											if (mobileNo.length >= 10) {
+												$
+														.ajax({
+															type : "post",
+															url : "${pageContext.request.contextPath}/searchByMobileNo",
+															data : "mobileNo="
+																	+ mobileNo,
+															success : function(
+																	response) {
+																if (response == "available") {
+																	//alert("inside if: "+response);
+																	$(
+																			'#groupNameTest')
+																			.html(
+																					"This Mobile No Already Exists!");
+																} else {
+																	//alert("inside else: "+response);
+																	$(
+																			'#groupNameTest')
+																			.html(
+																					"Available");
+																}
+															},
+															error : function(
+																	err) {
+																$(
+																		'#groupNameTest')
+																		.html(
+																				"ERROR");
+																alert(err);
+															}
+														});
 
-function validate() {
+											}
 
-	if ($('#mobileNo').val() == "" || $('#mobileNo').val() == null) {
+										})
+					});
 
-		alert("Please Enter Mobile No");
-		$("#mobileNo").focus();
+	function validate() {
 
-		return false;
+		if ($('#mobileNo').val() == "" || $('#mobileNo').val() == null) {
+
+			alert("Please Enter Mobile No");
+			$("#mobileNo").focus();
+
+			return false;
+		}
 	}
-}
-
 </script>
 </html>

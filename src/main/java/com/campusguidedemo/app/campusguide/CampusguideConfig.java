@@ -66,24 +66,23 @@ public class CampusguideConfig extends WebSecurityConfigurerAdapter {
 
 		http.csrf().disable().authorizeRequests()
 
-				.antMatchers("/admin", "/addCourse", "/editCourse", "/getStudent", "/aviewStudentDetails")
+				.antMatchers("/admin", "/addCourse", "/editCourse", "/getStudent", "/aviewStudentDetails","index")
 				.hasRole("ADMIN")
 
-				.antMatchers("/studenthome").hasRole("USER").antMatchers("/userlogin").hasAnyRole("ADMIN", "USER")
+				.antMatchers("/studenthome","index").hasRole("USER").antMatchers("/userlogin").hasAnyRole("ADMIN", "USER")
 				.anyRequest().authenticated().antMatchers("/index").hasAnyRole("ADMIN", "USER").anyRequest().permitAll()
 
-				.and().addFilterAfter(loginFilter(), BasicAuthenticationFilter.class)
+				.and().addFilterAfter(customLoginFilters(), BasicAuthenticationFilter.class)
 
-				.formLogin().failureForwardUrl("/login").failureUrl("/accesDenied").and().logout()
+				.formLogin().loginPage("/login").failureUrl("/login").and().logout()
 				.logoutSuccessUrl("/index").invalidateHttpSession(true).and().exceptionHandling()
 				.accessDeniedPage("/accesDenied");
 
 	}
 
 	@Bean
-
-	public LoginFilter loginFilter() {
-		return new LoginFilter();
+	public CustomLoginFilter customLoginFilters() {
+		return new CustomLoginFilter();
 	}
 
 }

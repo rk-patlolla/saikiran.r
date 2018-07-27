@@ -1,30 +1,36 @@
 package com.campusguidedemo.app.pojo;
 
 import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "student", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "student_name", "mobile_no", "c_id" }) })
+@Table(name = "student")
+@EntityListeners(AuditingEntityListener.class)
 public class Student {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "s_id")
 	private Long sId;
+	@Pattern(regexp = "^[a-zA-Z.\\-\\/+=@_ ]*$")
 	@NotBlank
 	@Column(name = "student_name", length = 45)
 	private String studentName;
@@ -50,12 +56,20 @@ public class Student {
 
 	@Column(name = "s_status", length = 10)
 	private int sStatus = 0;
-
+    @CreatedDate
 	@Column(name = "created_date", updatable = false)
 	private Date created;
-
+    @LastModifiedDate
 	@Column(name = "updated_date")
 	private Date updated;
+	
+	@CreatedBy
+	@Column(name="created_by")
+	private String createdBy;
+	
+	@LastModifiedBy
+	@Column(name="modified_by")
+	private String modifiedBy;
 
 
 	/* DefaultConstructor */
@@ -63,16 +77,31 @@ public class Student {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "Student [sId=" + sId + ", studentName=" + studentName + ", studentType=" + studentType + ", course="
-				+ course + ", mobileNo=" + mobileNo + ", studentpassword=" + studentpassword + ", userrole=" + userrole
-				+ ", sStatus=" + sStatus + ", created=" + created + ", updated=" + updated + "]";
-	}
+
 
 	/* Getter and Setters */
 	public Date getCreated() {
 		return created;
+	}
+
+
+
+
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 	public String getStudentpassword() {
@@ -149,6 +178,13 @@ public class Student {
 
 	public void setsStatus(int sStatus) {
 		this.sStatus = sStatus;
+	}
+	@Override
+	public String toString() {
+		return "Student [sId=" + sId + ", studentName=" + studentName + ", studentType=" + studentType + ", course="
+				+ course + ", mobileNo=" + mobileNo + ", studentpassword=" + studentpassword + ", userrole=" + userrole
+				+ ", sStatus=" + sStatus + ", created=" + created + ", updated=" + updated + ", createdBy=" + createdBy
+				+ ", modifiedBy=" + modifiedBy + "]";
 	}
 
 }

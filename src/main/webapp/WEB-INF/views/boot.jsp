@@ -229,7 +229,7 @@ a.article, a.article:hover {
 					<b><c:out value="${userDetails}"></c:out></b>
 				</c:if>
 			</p>
-			<li><a href="admin">Home</a></li>
+			<li><a href="index">Home</a></li>
 			<li><a href="addCourse">Add Course</a></li>
 			<li><a href="editCourse">Edit Course</a></li>
 			<li><a href="viewCourse">View Courses</a></li>

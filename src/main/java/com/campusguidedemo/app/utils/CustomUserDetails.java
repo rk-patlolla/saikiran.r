@@ -3,6 +3,7 @@ package com.campusguidedemo.app.utils;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,17 +24,23 @@ public class CustomUserDetails implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		String uservailability = studentService.checkMobileNoForReg(username);
 		UserDetails userDetails = null;
-		if (uservailability != null) {
-			Student st = studentRes.findUserByMobileNo(username);
-			List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
-			GrantedAuthority authority = new SimpleGrantedAuthority(st.getUserrole());
-			grantList.add(authority);
-		 userDetails = (UserDetails) new User(st.getStudentName(), st.getStudentpassword(), grantList);
-		}
-		else {
-			
+		try {String uservailability = studentService.checkMobileNoForReg(username);
+	
+		
+			if (uservailability != null) {
+				Student st = studentRes.findUserByMobileNo(username);
+				List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
+				GrantedAuthority authority = new SimpleGrantedAuthority(st.getUserrole());
+				grantList.add(authority);
+			 userDetails = (UserDetails) new User(st.getMobileNo(), st.getStudentpassword(), grantList);
+			}
+			else {
+				
+				 throw new UsernameNotFoundException(
+			                "Could not find user with this number " + username);
+			}
+		} catch (InternalAuthenticationServiceException e) {
 			 throw new UsernameNotFoundException(
 		                "Could not find user with this number " + username);
 		}
